@@ -1,74 +1,86 @@
-function getDatiCompleti() {
-    const iban = document.getElementById('iban').textContent;
-    const beneficiario = document.getElementById('beneficiario').textContent;
-    const causale = document.getElementById('causale').textContent;
+/**
+ * 1. FUNZIONE AGGIORNA PULSANTI
+ * Gestisce l'abilitazione dei tasti in base alla selezione della causale
+ */
+function aggiornaPulsanti() {
+    const select = document.getElementById('causale');
+    const isSelezionato = select.value !== '';
     
-    return `📋 DATI PER IL BONIFICO\n\n💳 IBAN: ${iban}\n👤 Beneficiario: ${beneficiario}\n📝 Causale: ${causale}`;
+    document.getElementById('copyCausale').disabled = !isSelezionato;
+    document.getElementById('whatsappBtn').disabled = !isSelezionato;
+    document.getElementById('copyAllBtn').disabled = !isSelezionato;
 }
 
+/**
+ * 2. FUNZIONE COPIA SINGOLO CAMPO
+ */
 function copia(campo) {
     const elemento = document.getElementById(campo);
-    const testo = elemento.textContent;
+    let testo = (campo === 'causale') ? elemento.value : elemento.textContent;
+
+    if (campo === 'causale' && !testo) {
+        mostraNotifica('Seleziona prima una causale!');
+        return;
+    }
+
+    eseguiCopia(testo);
     
-    const textarea = document.createElement('textarea');
-    textarea.value = testo;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.select();
-    
-    try {
-        document.execCommand('copy');
-        const btn = document.querySelector(`[data-field="${campo}"]`);
+    const btn = document.querySelector(`[data-field="${campo}"]`);
+    if (btn) {
         btn.classList.add('copied');
         mostraNotifica('Copiato!');
-        
-        setTimeout(() => {
-            btn.classList.remove('copied');
-        }, 2000);
-    } catch (err) {
-        console.error('Errore nella copia', err);
+        setTimeout(() => btn.classList.remove('copied'), 2000);
     }
-    
-    document.body.removeChild(textarea);
 }
 
+/**
+ * 3. FUNZIONE COPIA TUTTO
+ */
 function copiaTutto() {
-    const testo = getDatiCompleti();
-    
-    const textarea = document.createElement('textarea');
-    textarea.value = testo;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.select();
-    
-    try {
-        document.execCommand('copy');
-        mostraNotifica('Tutti i dati copiati!');
-    } catch (err) {
-        console.error('Errore nella copia', err);
+    const causale = document.getElementById('causale').value;
+    if (!causale) {
+        mostraNotifica('Seleziona una causale!');
+        return;
     }
+
+    const iban = document.getElementById('iban').textContent;
+    const beneficiario = document.getElementById('beneficiario').textContent;
+    const testoCompleto = `📋 DATI BONIFICO\n\n💳 IBAN: ${iban}\n👤 Beneficiario: ${beneficiario}\n📝 Causale: ${causale}`;
     
-    document.body.removeChild(textarea);
+    eseguiCopia(testoCompleto);
+    mostraNotifica('Tutti i dati copiati!');
 }
 
+/**
+ * 4. CONDIVISIONE WHATSAPP
+ */
 function condividiWhatsApp() {
-    const testo = encodeURIComponent(getDatiCompleti());
-    window.open(`https://wa.me/?text=${testo}`, '_blank');
+    const causale = document.getElementById('causale').value;
+    const iban = document.getElementById('iban').textContent;
+    const beneficiario = document.getElementById('beneficiario').textContent;
+    
+    const messaggio = `📋 *DATI BONIFICO*\n\n💳 *IBAN:* ${iban}\n👤 *Benef:* ${beneficiario}\n📝 *Causale:* ${causale}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(messaggio)}`, '_blank');
 }
 
-function condividiTelegram() {
-    const testo = encodeURIComponent(getDatiCompleti());
-    window.open(`https://t.me/share/url?url=&text=${testo}`, '_blank');
+/**
+ * LOGICA DI COPIA (Helper)
+ */
+function eseguiCopia(testo) {
+    const area = document.createElement('textarea');
+    area.value = testo;
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand('copy');
+    document.body.removeChild(area);
 }
 
+/**
+ * MOSTRA NOTIFICA
+ */
 function mostraNotifica(messaggio) {
     const notifica = document.getElementById('notification');
     notifica.textContent = messaggio;
     notifica.classList.add('show');
-    
-    setTimeout(() => {
-        notifica.classList.remove('show');
-    }, 2000);
+    setTimeout(() => notifica.classList.remove('show'), 2000);
 }
