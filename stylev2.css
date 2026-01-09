@@ -5,9 +5,8 @@
 }
 
 body {
-    /* Sfondo ispirato ai toni profondi di JoyFit */
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #1A2938 0%, #2E3E4E 100%); 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
