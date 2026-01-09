@@ -51,7 +51,7 @@ function copiaTutto() {
 
     const iban = document.getElementById('iban').textContent;
     const beneficiario = document.getElementById('beneficiario').textContent;
-    const testoCompleto = `📋 DATI BONIFICO\n\n💳 IBAN: ${iban}\n👤 Beneficiario: ${beneficiario}\n📝 Causale: ${causale}`;
+    const testoCompleto = `DATI BONIFICO:\n\n IBAN: ${iban}\n Beneficiario: ${beneficiario}\n Causale: ${causale}`;
     
     eseguiCopia(testoCompleto);
     mostraNotifica('Tutti i dati copiati!');
