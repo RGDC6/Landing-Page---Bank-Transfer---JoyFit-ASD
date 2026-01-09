@@ -99,12 +99,20 @@ body {
     border: 1px solid rgba(220, 220, 220, 0.5);
 }
 
+/* Cerca la classe .causale-select nel tuo CSS e aggiungi/modifica queste righe */
 .causale-select {
     appearance: none;
     cursor: pointer;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23222' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 15px center;
+    
+    /* AGGIUNGI QUESTE RIGHE */
+    min-width: 0;          /* Fondamentale per il flexbox */
+    width: 100%;           /* Occupa tutto lo spazio disponibile */
+    text-overflow: ellipsis; /* Se il testo è lungo, mette i tre puntini (...) */
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .copy-btn {
@@ -114,6 +122,7 @@ body {
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s;
+
 }
 
 .copy-btn:disabled, .social-btn:disabled {
@@ -160,3 +169,14 @@ body {
 }
 
 .notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 400px) {
+    .card {
+        padding: 25px 15px; /* Riduce il padding interno per dare più spazio ai contenuti */
+    }
+    
+    .data-value, .causale-select {
+        font-size: 14px; /* Riduce leggermente il font se necessario */
+        padding: 10px;
+    }
+}
