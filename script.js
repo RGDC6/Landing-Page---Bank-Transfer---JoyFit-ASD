@@ -65,7 +65,7 @@ function condividiWhatsApp() {
     const iban = document.getElementById('iban').textContent;
     const beneficiario = document.getElementById('beneficiario').textContent;
     
-    const messaggio = `📋 *DATI BONIFICO*\n\n💳 *IBAN:* ${iban}\n👤 *Benef:* ${beneficiario}\n📝 *Causale:* ${causale}`;
+    const messaggio = `*DATI BONIFICO*\n\n *IBAN:* ${iban}\n *Benef:* ${beneficiario}\n *Causale:* ${causale}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(messaggio)}`, '_blank');
 }
 
