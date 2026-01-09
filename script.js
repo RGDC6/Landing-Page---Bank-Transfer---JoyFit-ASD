@@ -6,15 +6,15 @@ function aggiornaPulsanti() {
     const select = document.getElementById('causale');
     const isSelezionato = select.value !== '';
     
-    // Abilita/Disabilita i pulsanti
-    document.getElementById('copyCausale').disabled = !isSelezionato;
-    document.getElementById('whatsappBtn').disabled = !isSelezionato;
-    document.getElementById('copyAllBtn').disabled = !isSelezionato;
-
     // FORZA LA CHIUSURA SU MOBILE
     if (isSelezionato) {
         select.blur(); // Rimuove il focus e chiude la tendina/tastiera
     }
+
+    // Abilita/Disabilita i pulsanti
+    document.getElementById('copyCausale').disabled = !isSelezionato;
+    document.getElementById('whatsappBtn').disabled = !isSelezionato;
+    document.getElementById('copyAllBtn').disabled = !isSelezionato;
 }
 
 /**
